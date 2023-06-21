@@ -1,8 +1,10 @@
 <?php session_start()?>
 <?php 
     if(isset($_POST['removeProduct'])){
-       unset($_SESSION['itemsInCart'][$_GET['k']]);
-       $_SESSION['itemsInCart'] = array_values($_SESSION['itemsInCart']);
+        $_SESSION['numAtCart'] -= $_SESSION['itemsInCart'][$_POST['k']]['quantity'];
+        unset($_SESSION['itemsInCart'][$_POST['k']]);
+        $_SESSION['itemsInCart'] = array_values($_SESSION['itemsInCart']);
+        header("location: cart.php");
     }
 ?>
 <?php include "./src/data.php";?>
@@ -18,7 +20,10 @@
 <body>
     <?php include "header.php" ?>
     <?php if(isset($_GET['k'])):?>
-        <?php $product = $_SESSION['itemsInCart'][$_GET['k']]; ?>
+        <?php 
+            $key = $_GET['k'];
+            $product = $_SESSION['itemsInCart'][$_GET['k']]; 
+        ?>
         <div class="container mx-auto mt-8 flex">
             <img src="./img/<?php echo $product['image'] ?>" class="" alt=" <?php echo $product['image'] ?> ">
             <div class="px-4">   
@@ -27,10 +32,13 @@
                     <p class="py-1 px-4 bg-slate-700 text-white rounded">P<?php echo $product['price'] ?></p>
                 </div>
                 <div class="py-4 text-lg"><?php echo $product['description'] ?></div>
-                <form method="post" action="cart.php">
+                <form method="post" >
                     <h1 class="text-2xl py-4">Size: <?php echo $product['size']?> </h1>
                     <div class="py-8 flex flex-col space-y-4">
                         <label for="quantity" class="text-2xl">Quantity: <?php echo $product['quantity']; ?></label>
+                    </div>
+                    <div>
+                        <input type="hidden" name="k" value="<?php echo $key ?>">
                     </div>
                     <div class="space-x-4">
                         <button class="py-2 px-4 bg-slate-700 text-white rounded" type="submit" name="removeProduct">Confirm Product Removal</button>
