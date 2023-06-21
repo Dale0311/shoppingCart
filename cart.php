@@ -20,15 +20,14 @@
 </head>
 
 <body>
-    <?php if(!isset($_SESSION['itemsInCart'])) : ?>
+    <?php if(!isset($_SESSION['itemsInCart']) || count($_SESSION['itemsInCart']) < 1) : ?>
         <?php include "header.php" ?>
         <div class="my-8 text-2xl font-semibold container mx-auto">
             <h1>There's nothing in your cart yet</h1>
         </div>
     <?php endif ?>
-    <?php if(isset($_SESSION['itemsInCart'])) :?>
+    <?php if(isset($_SESSION['itemsInCart']) && count($_SESSION['itemsInCart']) > 0) :?>
     <?php include "header.php" ?>
-    <?php print_r($_SESSION['itemsInCart']); ?>
     <form method="post">
     <div class="container mx-auto my-8">
         <table class="w-full border border-gray-200  rounded-2xl">
@@ -85,7 +84,7 @@
         <div class="container mx-auto flex justify-between space-x-4 text-center">
             <a href="." class="py-4 bg-red-500 rounded text-white w-full"><i class="fa-solid fa-bag-shopping"></i> Continue Shopping</a>
             <button class="py-4 bg-green-500 rounded text-white w-full" type="submit" name="updateCart"><i class="fa-solid fa-pen-to-square"></i> Update</button>
-            <a href="" class="py-4 bg-blue-500 rounded text-white w-full"><i class="fa-solid fa-right-from-bracket"></i> Checkout</a>
+            <a href="checkout.php" class="py-4 bg-blue-500 rounded text-white w-full"><i class="fa-solid fa-right-from-bracket"></i> Checkout</a>
         </div>
     </div>
     </form>
